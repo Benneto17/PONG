@@ -1,109 +1,97 @@
-//Canvas auswählen
-const cvs = document.getElementById("pong");
-const ctx = cvs.getContext("2d");
+const cvs = document.getElementById("pong");  //Id wird definiert
+const ctx = cvs.getContext("2d");  //methoden und Eigenschaften werden hiermit angegeben
 
-//User Paddle
-const user = {
-    x : 0,
-    y : cvs.height/2 - 100/2,
-    width : 10,
-    height : 100,
-    color : "WHITE",
-    score : 0
+const user = {  //der User wird definiert
+    x : 0,  //x-Wert
+    y : cvs.height/2 - 100/2,  //y-Wert
+    width : 10,  //die Breite
+    height : 100,  //die Höhe
+    color : "WHITE",  //die Farbe
+    score : 0  //und der Score, den der User am Anfang hat
 }
 
-
-//Computer Paddle
-const com = {
-    x : cvs.width - 10,
-    y : cvs.height/2 - 100/2,
-    width : 10,
-    height : 100,
-    color : "WHITE",
-    score : 0
+const com = {  //der Computer wird definiert
+    x : cvs.width - 10,  //siehe oben
+    y : cvs.height/2 - 100/2,  //-"-
+    width : 10,  //-"-
+    height : 100,  //-"-
+    color : "WHITE",  //-"-
+    score : 0  //-"-
 }
 
-//Ball
-const ball = {
-    x : cvs.width/2,
-    y : cvs.height/2,
-    width : 10,
-    radius : 10,
-    speed : 5,
-    geschwindigkeitX : 5,
-    geschwindigkeitY : 5,
-    color : "WHITE",
+const ball = {  //der Ball wird definiert
+    x : cvs.width/2,  //-"-
+    y : cvs.height/2,  //-"-
+    width : 10,  //-"-
+    radius : 10,  //der Radius
+    speed : 5,  //die geschwindigkeit, die der ball besitzt
+    geschwindigkeitX : 5,  //geschwindigkeit in x-richtung
+    geschwindigkeitY : 5,  //geschwindigkeit in y-richtung
+    color : "WHITE",  //-"-
 }
 
-//eine Rechteck funktion zeichnen
-function drawRect(x, y, w, h, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, w, h);
+function drawRect(x, y, w, h, color) {  //ein Rechteck wird gezeichnet -> in abhängigkeit von x, y, breite, höhe, farbe
+    ctx.fillStyle = color;  //die Füllfarbe wird angewannt
+    ctx.fillRect(x, y, w, h);  //die verscheidenen Werte werden angewannt
 }
 
-//Netz konstruieren
-const netz = {
-    x : cvs.width/2 - 1,
-    y : 0,
-    width : 2,
-    height : 10,
-    color : "WHITE",
+const netz = {  //das Netz in der Mitte des Spielfeldes wird definiert
+    x : cvs.width/2 - 1,  //-"-
+    y : 0,  //-"-
+    width : 2,  //-"-
+    height : 10,  //-"-
+    color : "WHITE",  //-"-
 }
 
-//das Netz zeichnen
-function drawnetz() {
-    for (let i = 0; i <= cvs.height; i += 15) {
-        drawRect(netz.x, netz.y + i, netz.width, netz.height, netz.color);
+function drawnetz() {  //Funktion zeichnet das Netz
+    for (let i = 0; i <= cvs.height; i += 15) {  //eine Konstante i wird eingeführt, welche gleich der Höhe des Canvas ist -> i=15
+        drawRect(netz.x, netz.y + i, netz.width, netz.height, netz.color);  //das Netz wird mit den Werten gezeichnet
     }
 }
 
-//Kreis zeichnen
-function drawCircle(x, y, r, color) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI*2, false);
-    ctx.closePath();
-    ctx.fill();
+function drawCircle(x, y, r, color) {  //der Ball wird gezeichnet
+    ctx.fillStyle = color;  //Füllfarbe des Ball's
+    ctx.beginPath();  //der Weg das Ball's wird beschrieben
+    ctx.arc(x, y, r, 0, Math.PI*2, false);  //Weg des Ball's, zu seiner Ausgangsposition
+    ctx.closePath();  //Weg beendet
+    ctx.fill();  //wird gefüllt
 }
 
-//Text zeichnen
-
-function drawText (text, x, y, color) {
-    ctx.fillStyle = color;
-    ctx.font = "45px fantasy";
-    ctx.fillText(text, x, y);
+function drawText (text, x, y, color) {  //text wird angegeben/ gezeichnent
+    ctx.fillStyle = color;  //Füllfarbe
+    ctx.font = "45px fantasy";  //die schrift ist 45 Pixel auseinander
+    ctx.fillText(text, x, y);  //der text wird mit den Werten ausgegeben
 }
 
-//das spiel konstruieren
-function render() {
-    //lösches des Canvas zuerst
-    drawRect(0, 0, cvs.width, cvs.height, "BLACK");
+function render() {  //das spiel konstruieren
 
-    //Netz zeichnen
-    drawnetz();
+    drawRect(0, 0, cvs.width, cvs.height, "BLACK");  //lösches des Canvas
+
+
+    drawnetz();  //Netz zeichnen
 
     //den Score zeichnen
-    drawText(user.score, cvs.width/4, cvs.height/5, "WHITE");
-    drawText(com.score, 3*cvs.width/4, cvs.height/5, "WHITE");
+    drawText(user.score, cvs.width/4, cvs.height/5, "WHITE");   //der Score wird gezeichnet
+    drawText(com.score, 3 * cvs.width/4, cvs.height/5, "WHITE");  //der Score wird gezeichnet
 
 
-    //den Spieler und die Paddles zeichnen
-    drawRect(user.x, user.y, user.width, user.height, user.color);
-    drawRect(com.x, com.y, com.width, com.height, com.color);
 
-    //den Ball zeichnen
-    drawCircle(ball.x, ball.y, ball.radius, ball.color);
+    drawRect(user.x, user.y, user.width, user.height, user.color);  //der Spieler und das Paddles wird gezeichnet
+    drawRect(com.x, com.y, com.width, com.height, com.color);  //der Spieler und das Paddles wird gezeichnet
+
+
+    drawCircle(ball.x, ball.y, ball.radius, ball.color);  //der Ball wird gezeichnet
 }
 
 
-//kontrolle über die Paddles
 
-cvs.addEventListener("mousemove", bewegePaddle);
 
-function bewegePaddle(evt) {
-    let rect = cvs.getBoundingClientRect();
+cvs.addEventListener("mousemove",bewegePaddle);  //das Paddle des Spieler wird durch die Maus bewegt
 
-    user.y = evt.clientY - rect.top - user.height/2;
+function bewegePaddle(evt) {  //funktion für das Bewegen des Paddels
+    let rect = cvs.getBoundingClientRect();  //varable definiert
+
+    user.y = evt.clientY - rect.top - user.height/2;  //die Mitte des Paddles des Spieler folgt der Mausbewegung
 }
 
 
@@ -123,62 +111,63 @@ function kollision(b ,p) {    //b für Ball, p für Spieler
 }
 
 //resetet den Ball
-function resetBall() {
+function resetBall() {  //der Ball wird nach dem erziehlen eines Punktes, wieder in die Ausgangsposition zurück gepackt
     ball.x = cvs.width/2;
-    ball.y = cvs. height/2;
+    ball.y = cvs.height/2;
 
     ball.geschwingkeit = 5;
     ball.geschwindigkeitX = - ball.geschwindigkeitX;
 }
 
+
 // Update Funktion -> position, bewegungen, score,...
 function update() {
-    ball.x += ball.geschwindigkeitX;
-    ball.y += ball.geschwindigkeitY;
+    ball.x += ball.geschwindigkeitX;  //der Ball bewegt sich -> x-Wert wird mit der Geschwindigkeit gleichgesetzt
+    ball.y += ball.geschwindigkeitY;  //der Ball bewegt sich -> -"-
 
     //einfache AI für das kontrollieren der Computer Paddle
     let computerLevel = 0.1;
     com.y += (ball.y - (com.y + com.height/2)) * computerLevel;
 
 
-    if (ball.y + ball.radius > cvs.height || ball.y - ball.radius < 0) {
-        ball.geschwindigkeitY = - ball. geschwindigkeitY;
+    if (ball.y + ball.radius > cvs.height || ball.y - ball.radius < 0) {  //wenn der Ball den unteren oder oberen Balken berührt
+        ball.geschwindigkeitY = - ball.geschwindigkeitY;  //,dann wird die Geschwindigkeit in y-Richtung in eine negative Bewegung umgeändert -> der Ball springt ab
     }
 
-    let player = (ball.x < cvs.width/2) ? user : com;
+    let player = (ball.x < cvs.width/2) ? user : com;  //hier wird festgestellt, welcher Spieler den Ball berührt
 
     if (kollision(ball, player)) {
-        //wo trifft der Ball den Spieler
-        let kollisionsPunkt = ball.y - (player.y + player.height);
+        //wo der Ball den Spieler berührt
+        let collidePoint = ball.y - (player.y + player.height/2);
 
         //Normalisierung
-        kollisionsPunkt = kollisionsPunkt/(player.height/2);
+        collidePoint = collidePoint/(player.height/2);
 
-        //berechne den Winkel im Bogenmaß
-        let winkleBog = kollisionsPunkt * Math.PI/4;
-
-
-        //x-richtung des ball's, wenn er berührt
-        let richtung = (ball.x < cvs.width/2) ? 1 : -1;
+        //berechnung des Winkels im Bogenmaß
+        let angelRad = collidePoint * Math.PI/4;
 
 
-        //veränderung geschwindigkeit X und Y
-        ball.geschwindigkeitX = richtung * ball.geschwingkeit * Math.cos(winkleBog)
-        ball.geschwindigkeitY =            ball.geschwingkeit * Math.sin(winkleBog)
+        //x-Richtung des Ball's, wenn er etwas berührt
+        let Richtung = (ball.x < cvs.width/2) ? 1 : -1;
 
-        //jedes mal, wenn der Ball das paddle berührt nimmt die geschwindigkeit zu
+
+        //veränderung der x-, y-Geschwindigkeit
+        ball.geschwindigkeitX = Richtung * ball.geschwingkeit * Math.cos(angelRad);
+        ball.geschwindigkeitY =            ball.geschwingkeit * Math.sin(angelRad);
+
+        //jedes mal, wenn der Ball das Paddle berührt, erhöht er die Geschwindigkeit
         ball.geschwingkeit += 0.5;
     }
 
-    //update den Score
+    //Update des Scores
     if (ball.x - ball.radius < 0) {
-        //der Computer gewinnt
-        com.score++;
-        resetBall();
+        //der Computer gewinnt/ macht einen Punkt
+        com.score++;  //der Score wird höher
+        resetBall();  //der Ball wird wieder reseted
     }else if (ball.x + ball.radius > cvs.width) {
-        //der User gewinnt
-        user.score++;
-        resetBall();
+        //der Spieler gewinnt/ macht einen Punkt
+        user.score++;  //der Score wird höher
+        resetBall();  //der Ball wird wieder reseted
     }
 }
  //Spiel init
@@ -188,5 +177,5 @@ function Spiel() {
 }
 
 //loop
-const framePerSecond = 50;
-setInterval(Spiel, 1000/framePerSecond);
+const framePerSecond = 50;  //Variable wird definiert
+setInterval(Spiel, 1000/framePerSecond);  //der Loop wird jede Sekunde 50 mal abgespielt
