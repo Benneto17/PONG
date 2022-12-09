@@ -126,43 +126,41 @@ function update() {
     ball.y += ball.geschwindigkeitY;                                                                                    //der Ball bewegt sich -> -"-
                                                                                                                         // einfache AI für das kontrollieren der Computer Paddle
     let computerLevel = 0.1;
-    com.y += (ball.y - (com.y + com.height/2)) * computerLevel;
+    com.y += (ball.y - (com.y + com.height / 2)) * computerLevel;
 
 
     if (ball.y + ball.radius > cvs.height || ball.y - ball.radius < 0) {                                                //wenn der Ball den unteren oder oberen Balken berührt
-        ball.geschwindigkeitY = - ball.geschwindigkeitY;                                                                //,dann wird die Geschwindigkeit in y-Richtung in eine negative Bewegung umgeändert -> der Ball springt ab
+        ball.geschwindigkeitY = -ball.geschwindigkeitY;                                                                 //,dann wird die Geschwindigkeit in y-Richtung in eine negative Bewegung umgeändert -> der Ball springt ab
     }
 
-    let player = (ball.x < cvs.width/2) ? user : com;                                                                   //hier wird festgestellt, welcher Spieler den Ball berührt
+    let player = (ball.x < cvs.width / 2) ? user : com;                                                                 //hier wird festgestellt, welcher Spieler den Ball berührt
 
     if (kollision(ball, player)) {
                                                                                                                         //wo der Ball den Spieler berührt
-        let collidePoint = ball.y - (player.y + player.height/2);
+        let collidePoint = ball.y - (player.y + player.height / 2);
 
                                                                                                                         //Normalisierung
-        collidePoint = collidePoint/(player.height/2);
+        collidePoint = collidePoint / (player.height / 2);
                                                                                                                         //berechnung des Winkels im Bogenmaß
-        let angelRad = collidePoint * Math.PI/4;
+        let angelRad = collidePoint * Math.PI / 4;
 
 
                                                                                                                         //x-Richtung des Ball's, wenn er etwas berührt
-        let Richtung = (ball.x < cvs.width/2) ? 1 : -1;
+        let Richtung = (ball.x < cvs.width / 2) ? 1 : -1;
 
 
-                                                                                                                        //veränderung der x-, y-Geschwindigkeit
-        ball.geschwindigkeitX = Richtung * ball.geschwingkeit * Math.cos(angelRad);
-        ball.geschwindigkeitY =            ball.geschwingkeit * Math.sin(angelRad);
-
+        ball.geschwindigkeitX = -ball.geschwindigkeitX;                                                                 //veränderung der x-, y-Geschwindigkeit
                                                                                                                         //jedes mal, wenn der Ball das Paddle berührt, erhöht er die Geschwindigkeit
-        ball.geschwingkeit += 0.5;
+        ball.geschwingkeit += 0.1;
     }
+
 
                                                                                                                         //Update des Scores
     if (ball.x - ball.radius < 0) {
                                                                                                                         //der Computer gewinnt/ macht einen Punkt
         com.score++;                                                                                                    //der Score wird höher
         resetBall();                                                                                                    //der Ball wird wieder reseted
-    }else if (ball.x + ball.radius > cvs.width) {
+    } else if (ball.x + ball.radius > cvs.width) {
                                                                                                                         //der Spieler gewinnt/ macht einen Punkt
         user.score++;                                                                                                   //der Score wird höher
         resetBall();                                                                                                    //der Ball wird wieder reseted
